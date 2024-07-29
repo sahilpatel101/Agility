@@ -1,9 +1,9 @@
 import frappe
 
 
-@frappe.whitelist(allow_guest=1)
+@frappe.whitelist()
 def item_wise_assets():
-    items = frappe.db.get_all(
+    items = frappe.db.get_list(
         "Item",
         filters={},
         fields=["*"],
