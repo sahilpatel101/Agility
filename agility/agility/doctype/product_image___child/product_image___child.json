@@ -1,0 +1,55 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-07-30 12:59:34.792197",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "color_code",
+  "color_name",
+  "image_view",
+  "image"
+ ],
+ "fields": [
+  {
+   "fieldname": "color_code",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Color Code"
+  },
+  {
+   "fetch_from": "color_code.name1",
+   "fieldname": "color_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Color Name"
+  },
+  {
+   "fieldname": "image_view",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Position",
+   "options": "\nFront\nTop\nRight Side\nLeft Side\nBottom\nOthers\n3D view"
+  },
+  {
+   "fieldname": "image",
+   "fieldtype": "Attach",
+   "in_list_view": 1,
+   "label": "Image"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-07-30 13:47:52.984928",
+ "modified_by": "Administrator",
+ "module": "Agility",
+ "name": "Product Image - Child",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
