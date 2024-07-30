@@ -9,17 +9,19 @@ frappe.ui.form.on('Item', {
         else
             frappe.msg.print("Internal error")
     },
-    // onload: function (frm) {
-    //     frappe.call({
-    //         method: "get_variant_attribute_value",
-    //         args: {
-    //             item_attribute: "Colour"
-    //         },
-    //         callback: function (r) {
-    //             var data = r.data
-    //             const colorOptions = data.map(item => item.attribute_value).join('\n');
-    //             frm.fields_dict['custom_asset_list'].grid.update_docfield_property('color_code', 'options', colorOptions);
-    //         }
-    //     })
-    // }
+    onload: function (frm) {
+        frappe.call({
+            method: "agility.public.api.item.get_color_code",
+            args: {
+                item_attribute: "Shoe Colour",
+    		    template_code: frm.doc.name,
+            },
+            callback: function (r) {
+                var data = r.message
+                const colorOptions = data.map(item => item.attribute_value).join('\n');
+
+                frm.fields_dict['custom_assets_list'].grid.update_docfield_property('color_code', 'options', colorOptions);
+            }
+        })
+    }
 });
