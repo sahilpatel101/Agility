@@ -39,7 +39,7 @@ def item_wise_assets(
     #! APPEND CHILD INTO PARENT DOCTYPE LIST
     for asset in items:
         if asset.name in grouped_asset_list:
-            asset.asset_list = grouped_asset_list[asset.name]
+            asset.custom_assets_list = grouped_asset_list[asset.name]
 
     return items
 
