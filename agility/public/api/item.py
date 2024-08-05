@@ -2,13 +2,14 @@ import frappe
 from frappe import _
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=1)
 def item_wise_assets(
     filters={},
     fields=["*"],
     limit_start=0,
     limit_page_length=20,
-    order_by="modified desc",
+    order_by=None,
+    group_by=None,
 ):
     items = frappe.db.get_list(
         "Item",
@@ -17,6 +18,7 @@ def item_wise_assets(
         limit_start=limit_start,
         limit_page_length=limit_page_length,
         order_by=order_by,
+        group_by=group_by,
     )
 
     #! GET CHILD DOCTYPE LIST
