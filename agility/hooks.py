@@ -122,13 +122,11 @@ doctype_js = {"Item": "public/js/item.js"}
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+    "Sales Order": {
+        "after_insert": "agility.public.api.accounts_controller.sales_order_set_taxes_and_totals",
+    }
+}
 
 # Scheduled Tasks
 # ---------------
