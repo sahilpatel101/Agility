@@ -21,7 +21,6 @@ def item_wise_assets(
         group_by=group_by,
     )
 
-    #! GET CHILD DOCTYPE LIST
     custom_assets_list = frappe.db.get_all(
         "Product Image - Child",
         filters={"parenttype": "Item"},
@@ -30,7 +29,26 @@ def item_wise_assets(
         limit=None,
     )
 
-    #! GROUP THEM BASED ON FIELD "PARENT"
+    item_price = frappe.db.get_all(
+        "Item Price",
+        fields=[
+            "item_code",
+            "uom",
+            "price_list",
+            "price_list_rate",
+            "valid_from",
+            "valid_upto",
+        ],
+        limit=None,
+    )
+
+    item_price_map = {}
+    for price in item_price:
+        item_code = price["item_code"]
+        if item_code not in item_price_map:
+            item_price_map[item_code] = []
+        item_price_map[item_code].append(price)
+
     grouped_asset_list = {}
     for item in custom_assets_list:
         parent = item["parent"]
@@ -38,10 +56,9 @@ def item_wise_assets(
             grouped_asset_list[parent] = []
         grouped_asset_list[parent].append(item)
 
-    #! APPEND CHILD INTO PARENT DOCTYPE LIST
-    for asset in items:
-        if asset.name in grouped_asset_list:
-            asset.custom_assets_list = grouped_asset_list[asset.name]
+    for item in items:
+        item.custom_assets_list = grouped_asset_list.get(item.name, [])
+        item.item_prices = item_price_map.get(item.name, [])
 
     return items
 
