@@ -1,3 +1,4 @@
+import datetime
 import frappe
 from frappe import _
 
@@ -11,13 +12,18 @@ def item_wise_assets(
     order_by=None,
     group_by=None,
 ):
+    item_order_by = order_by
+
+    if order_by and "price_list_rate" in order_by:
+        item_order_by = None
+
     items = frappe.db.get_list(
         "Item",
         filters=frappe.parse_json(filters),
         fields=frappe.parse_json(fields),
         limit_start=limit_start,
         limit_page_length=limit_page_length,
-        order_by=order_by,
+        order_by=item_order_by,
         group_by=group_by,
     )
 
@@ -28,7 +34,7 @@ def item_wise_assets(
         order_by="parent",
         limit=None,
     )
-
+    today = datetime.datetime.now().date()
     item_price = frappe.db.get_all(
         "Item Price",
         fields=[
@@ -39,15 +45,16 @@ def item_wise_assets(
             "valid_from",
             "valid_upto",
         ],
+        filters={"valid_from": ["<=", today], "valid_upto": [">=", today]},
         limit=None,
     )
 
-    item_price_map = {}
+    item_price_list = {}
     for price in item_price:
         item_code = price["item_code"]
-        if item_code not in item_price_map:
-            item_price_map[item_code] = []
-        item_price_map[item_code].append(price)
+        if item_code not in item_price_list:
+            item_price_list[item_code] = []
+        item_price_list[item_code].append(price)
 
     grouped_asset_list = {}
     for item in custom_assets_list:
@@ -58,7 +65,17 @@ def item_wise_assets(
 
     for item in items:
         item.custom_assets_list = grouped_asset_list.get(item.name, [])
-        item.item_prices = item_price_map.get(item.name, [])
+        item.item_prices = item_price_list.get(item.name, [])
+        item.price_list_rate = (
+            item_price_list.get(item.name)[0].get("price_list_rate", 0)
+            if item_price_list.get(item.name)
+            else 0
+        )
+
+    if order_by == "price_list_rate asc":
+        items = sorted(items, key=lambda x: x["price_list_rate"])
+    elif order_by == "price_list_rate desc":
+        items = sorted(items, key=lambda x: x["price_list_rate"], reverse=True)
 
     return items
 
