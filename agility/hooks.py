@@ -124,7 +124,7 @@ doctype_js = {"Item": "public/js/item.js"}
 
 doc_events = {
     "Sales Order": {
-        "after_insert": "agility.public.api.accounts_controller.sales_order_set_taxes_and_totals",
+        "after_insert": "agility.api.accounts_controller.sales_order_set_taxes_and_totals",
     }
 }
 

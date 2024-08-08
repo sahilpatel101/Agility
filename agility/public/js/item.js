@@ -1,9 +1,7 @@
 
 frappe.ui.form.on('Item', {
     custom_style_code: function (frm) {
-        // Check if the item status is 'Template'
         if (frm.doc.has_variants == 1) {
-            console.log("workinggggg");
             frm.set_value("item_code", frm.doc.custom_style_code)
         }
         else
@@ -11,10 +9,10 @@ frappe.ui.form.on('Item', {
     },
     onload: function (frm) {
         frappe.call({
-            method: "agility.public.api.item.get_color_code",
+            method: "agility.api.item.get_color_code",
             args: {
                 item_attribute: "Shoe Colour",
-    		    template_code: frm.doc.name,
+                template_code: frm.doc.name,
             },
             callback: function (r) {
                 var data = r.message
@@ -25,3 +23,5 @@ frappe.ui.form.on('Item', {
         })
     }
 });
+
+
