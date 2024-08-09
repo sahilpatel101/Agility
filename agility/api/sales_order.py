@@ -44,10 +44,7 @@ def itemcart(customer, items):
 
         sales_order.save()
         frappe.db.commit()
-        return {
-            "message": "Sales Order updated",
-            "sales_order_id": sales_order.name,
-        }
+        return sales_order
 
     else:
         # Create a new Sales Order
@@ -62,7 +59,4 @@ def itemcart(customer, items):
 
         sales_order.insert(ignore_permissions=True, ignore_mandatory=1)
         frappe.db.commit()
-        return {
-            "message": "Sales Order created",
-            "sales_order_id": sales_order.name,
-        }
+        return sales_order
