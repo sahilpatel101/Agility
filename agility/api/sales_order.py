@@ -44,7 +44,7 @@ def itemcart(customer, items):
                         item_to_remove.append(item["item_code"])
                         sales_order.items.remove(so_item)
                     else:
-                        so_item.qty = item["qty"]
+                        so_item.qty += item["qty"]
 
                     item_exists = True
                     break
