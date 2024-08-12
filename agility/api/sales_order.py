@@ -1,11 +1,16 @@
 import frappe
 from frappe.utils import getdate
+import json
+from frappe.desk.form.save import savedocs
 
 
 @frappe.whitelist()
 def itemcart(customer, items):
+
+    # doc = frappe.parse_json(doc)
+    # print(doc)
+
     if isinstance(items, str):
-        import json
 
         items = json.loads(items)
 
@@ -24,11 +29,23 @@ def itemcart(customer, items):
         sales_order = frappe.get_doc("Sales Order", existing_orders[0].name)
 
         for item in items:
+
+            item_to_remove = []
+
             item_exists = False
+
             for so_item in sales_order.items:
+
                 if so_item.item_code == item["item_code"]:
-                    so_item.qty += item["qty"]
                     so_item.delivery_date = item["delivery_date"]
+
+                    if item.get("qty") == 0:
+                        print("\n\n\n\nIffff")
+                        item_to_remove.append(item["item_code"])
+                        sales_order.items.remove(so_item)
+                    else:
+                        so_item.qty = item["qty"]
+
                     item_exists = True
                     break
 
@@ -42,12 +59,15 @@ def itemcart(customer, items):
                     },
                 )
 
-        sales_order.save()
+        if sales_order.items:
+            sales_order.save()
+        else:
+            sales_order.delete()
+
         frappe.db.commit()
         return sales_order
 
     else:
-        # Create a new Sales Order
         sales_order = frappe.get_doc(
             {
                 "doctype": "Sales Order",
