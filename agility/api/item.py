@@ -45,7 +45,11 @@ def item_wise_assets(
             "valid_from",
             "valid_upto",
         ],
-        filters={"valid_from": ["<=", today], "valid_upto": [">=", today]},
+        filters={"valid_from": ["<=", today]},
+        or_filters=[
+            {"valid_upto": [">=", today]},
+            {"valid_upto": ["is", "not set"]},
+        ],
         limit=None,
     )
 
