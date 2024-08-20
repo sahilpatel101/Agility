@@ -72,7 +72,7 @@ def itemcart(customer, items):
             {
                 "doctype": "Sales Order",
                 "customer": customer,
-                "set_warehouse": "All Warehouses - AD",
+                "set_warehouse": "Finished Goods - AD",
                 "items": items,
             }
         )
