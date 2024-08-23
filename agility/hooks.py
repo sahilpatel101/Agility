@@ -125,7 +125,14 @@ doctype_js = {"Item": "public/js/item.js"}
 doc_events = {
     "Sales Order": {
         "after_insert": "agility.api.accounts_controller.sales_order_set_taxes_and_totals",
-    }
+    },
+    "Item": {
+        "validate": "agility.api.item.template_wise_price_for_variants",
+        "after_insert": [
+            "agility.api.item.set_price_for_new_variant",
+            "agility.api.item.add_variant_attribute_to_item_template",
+        ],
+    },
 }
 
 # Scheduled Tasks
