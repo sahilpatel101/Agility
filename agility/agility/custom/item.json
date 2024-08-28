@@ -108,7 +108,7 @@
    "name": "Item-custom_apparel_type",
    "no_copy": 0,
    "non_negative": 0,
-   "options": "\nT-Shirt\nShorts & Bermundas\nPolo Shirt\nBeachwear\nSport Trousers\nSweatshirts\nJackets\nTank Tops & Tank Tops",
+   "options": "T-SHIRT\nSHORTS & BERMUDA\nPOLO SHIRTS\nBEACHWEAR\nSPORT PANTS\nJACKETS\nSWEATSHIRTS\nTRACKSUITS\nTANK TOPS\nSKIRTS & DRESS\nSHORTS\nPANTS & LEGGINGS",
    "owner": "Administrator",
    "permlevel": 0,
    "precision": "",
